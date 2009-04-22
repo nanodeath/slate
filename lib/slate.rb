@@ -46,4 +46,49 @@ end  # module Slate
 
 Slate.require_all_libs_relative_to(__FILE__)
 
+module Slate
+  ENGINE_MAPPING = {
+    'haml' => Haml
+  }
+  
+  def self.render_string(engine, string, options={})
+    engine = engine.to_s.downcase
+    engine = ENGINE_MAPPING[engine]
+    if(engine)
+      engine.render_string(string, options[:context])
+    end
+  end
+  
+  def self.render_file(engine, filename, options={})
+    extension = engine.to_s.downcase
+    engine = get_engine(engine)
+    if(engine)
+      file = resolve_path(filename + "." + extension, @configuration[:search_path])
+      string = File.open(file) {|f| f.read}
+      engine.render_string(string, options[:context])
+    end
+  end
+  
+    def self.configuration
+      @configuration ||= {
+        :search_path => []
+      }
+    end
+  
+  private
+  def self.get_engine(engine_string)
+    engine = engine_string.to_s.downcase
+    ENGINE_MAPPING[engine]
+  end
+  
+  def self.resolve_path(filename, search_path)
+    search_path.each do |path|
+      path = ::File.expand_path(
+        ::File.join(path, filename))
+      return path if File.exist? path
+    end
+    return nil
+  end
+end
+
 # EOF
