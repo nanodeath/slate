@@ -1,5 +1,6 @@
 require 'liquid'
 
+# TODO: Hmm, what about liquid tags?
 module Slate
   class Liquid < TemplateEngine
     def self.render_string(string, binding, options={})

@@ -50,7 +50,8 @@ Slate.require_all_libs_relative_to(__FILE__)
 module Slate
   ENGINE_MAPPING = {
     'haml' => Haml,
-    'liquid' => Liquid
+    'liquid' => Liquid,
+    'erubis' => Erubis
   }
   
   def self.render_string(engine, string, options={})
