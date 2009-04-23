@@ -10,7 +10,7 @@ describe Slate do
       Slate.clear_cache
     end
   
-    it "should render extremely basic haml" do
+    it "should render basic haml" do
       Slate.render_string(:haml, <<-HAML).should == "<p>\n  Hello!\n</p>\n"
 %p
   Hello!      
@@ -62,17 +62,83 @@ describe Slate do
     it "should render faster when caching isn't disabled" do
       @location = "Washington"
       @weather = "wet"
-      no_cache_timer = Time.now
-      n = 100
-      n.times do
+      n = 500
+
+      no_cache_timer = nil
+      cache_timer = nil
+      
+      (n/10).times do
         Slate.render_file(:haml, 'hows_the_weather', {:context => binding, :no_cache => true}).should_not be_nil
       end
-      no_cache_timer = Time.now - no_cache_timer
-      cache_timer = Time.now
-      n.times do
-        Slate.render_file(:haml, 'hows_the_weather', {:context => binding}).should_not be_nil
+
+
+      no_cache = lambda do 
+        Slate.clear_cache
+        no_cache_timer = Time.now
+        n.times do
+          Slate.render_file(:haml, 'hows_the_weather', {:context => binding, :no_cache => true}).should_not be_nil
+        end
+        no_cache_timer = Time.now - no_cache_timer
       end
-      cache_timer = Time.now - cache_timer
+      cache = lambda do
+        Slate.clear_cache
+        cache_timer = Time.now
+        n.times do
+          Slate.render_file(:haml, 'hows_the_weather', {:context => binding}).should_not be_nil
+        end
+        cache_timer = Time.now - cache_timer
+      end
+      [cache, no_cache].sort_by {rand}.each {|t| t.call}
+      Kernel.puts "Haml: Cached is #{no_cache_timer/cache_timer}x faster.  (cached: #{cache_timer}, nocache: #{no_cache_timer}, n: #{n})"
+      cache_timer.should < no_cache_timer
+    end
+  end
+  
+  describe Slate::Liquid do
+    it "should render basic liquid" do
+      Slate.render_string(:liquid, <<-LIQUID, {:context => binding}).should == "<p>Hello!</p>\n"
+<p>Hello!</p>
+      LIQUID
+    end
+    
+    it "should render basic liquid with variables" do
+      @pets = "cats"
+      Slate.render_string(:liquid, <<-LIQUID, {:context => binding}).should == "<p>I'm not allergic to #{@pets}</p>\n"
+<p>I'm not allergic to {{ pets }}</p>
+      LIQUID
+    end
+    
+    it "should render faster when caching isn't disabled" do
+      @tod = "night"
+      @feeling = "tired"
+      n = 500
+      string = "I shouldn't feel this {{ feeling }} at this time of {{ tod }}"
+
+      no_cache_timer = nil
+      cache_timer = nil
+      
+      (n/10).times do
+        Slate.render_string(:liquid, string, {:context => binding, :no_cache => true}).should_not be_nil
+      end
+
+      no_cache = lambda do 
+        Slate.clear_cache
+        no_cache_timer = Time.now
+        n.times do
+          Slate.render_string(:liquid, string, {:context => binding, :no_cache => true}).should_not be_nil
+        end
+        no_cache_timer = Time.now - no_cache_timer
+      end
+      cache = lambda do
+        Slate.clear_cache
+        cache_timer = Time.now
+        n.times do
+          Slate.render_string(:liquid, string, {:context => binding}).should_not be_nil
+        end
+        cache_timer = Time.now - cache_timer
+      end
+      [cache, no_cache].sort_by {rand}.each {|t| t.call}
+      Kernel.puts "Liquid: Cached is #{no_cache_timer/cache_timer}x faster.  (cached: #{cache_timer}, nocache: #{no_cache_timer}, n: #{n})"
       cache_timer.should < no_cache_timer
     end
   end

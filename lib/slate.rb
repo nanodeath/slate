@@ -44,18 +44,20 @@ module Slate
 
 end  # module Slate
 
+require 'slate/template_engine'
 Slate.require_all_libs_relative_to(__FILE__)
 
 module Slate
   ENGINE_MAPPING = {
-    'haml' => Haml
+    'haml' => Haml,
+    'liquid' => Liquid
   }
   
   def self.render_string(engine, string, options={})
     engine = engine.to_s.downcase
     engine = ENGINE_MAPPING[engine]
     if(engine)
-      engine.render_string(string, options[:context])
+      engine.render_string(string, options[:context], options)
     end
   end
   
