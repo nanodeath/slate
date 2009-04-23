@@ -59,21 +59,35 @@ module Slate
     end
   end
   
-  def self.render_file(engine, filename, options={})
-    extension = engine.to_s.downcase
-    engine = get_engine(engine)
+  def self.render_file(engine_name, filename, options={})
+    extension = engine_name.to_s.downcase
+    engine = get_engine(engine_name)
     if(engine)
-      file = resolve_path(filename + "." + extension, @configuration[:search_path])
-      string = File.open(file) {|f| f.read}
-      engine.render_string(string, options[:context])
+      filename += "." + extension
+      search_path = options[:search_path] || @configuration[:search_path]
+      file = resolve_path(filename, search_path)
+      if(file)
+        string = File.open(file) {|f| f.read}
+        engine.render_string(string, options[:context], options)
+      else
+        raise "Template `#{filename}` not found (searched #{search_path.inspect})."
+      end
+    else
+      raise "Engine `#{engine_name}` could not be resolved"
     end
   end
   
-    def self.configuration
-      @configuration ||= {
-        :search_path => []
-      }
+  def self.clear_cache
+    ENGINE_MAPPING.values.each do |engine|
+      engine.clear_cache
     end
+  end
+  
+  def self.configuration
+    @configuration ||= {
+      :search_path => []
+    }
+  end
   
   private
   def self.get_engine(engine_string)
