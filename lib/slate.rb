@@ -53,7 +53,8 @@ module Slate
     'liquid' => Liquid,
     'erubis' => Erubis,
     'redcloth' => RedCloth,
-    'maruku' => Maruku
+    'maruku' => Maruku,
+    'sass' => Sass
   }
   
   def self.render_string(engine, string, options={})

@@ -49,7 +49,7 @@ module TemplateEngineHelpers
       end
       [cache, no_cache].sort_by {rand}.each {|t| t.call}
       engine = [engine] unless engine.is_a? Array
-      Kernel.puts "#{engine.join('|')}: Cached is #{no_cache_timer/cache_timer}x faster.  (cached: #{cache_timer}, nocache: #{no_cache_timer}, n: #{n})"
+      Kernel.puts "\t#{engine.join('|')}: Cached is #{(no_cache_timer*100/cache_timer).round/100.0}x faster.  (cached: #{(n/cache_timer).round}/s, nocache: #{(n/no_cache_timer).round}/s, n: #{n})"
       cache_timer.should < no_cache_timer
 
   end
@@ -87,18 +87,19 @@ module TemplateEngineHelpers
       end
       [cache, no_cache].sort_by {rand}.each {|t| t.call}
       engine = [engine] unless engine.is_a? Array
-      Kernel.puts "#{engine.join('|')}: Cached is #{(no_cache_timer*100/cache_timer).round/100.0}x faster.  (cached: #{cache_timer}, nocache: #{no_cache_timer}, n: #{n})"
+      Kernel.puts "\t#{engine.join('|')}: Cached is #{(no_cache_timer*100/cache_timer).round/100.0}x faster.  (cached: #{(n/cache_timer).round}/s, nocache: #{(n/no_cache_timer).round}/s, n: #{n})"
+#      Kernel.puts "\t#{engine.join('|')}: Cached is #{(no_cache_timer*100/cache_timer).round/100.0}x faster.  (cached: #{cache_timer}, nocache: #{no_cache_timer}, n: #{n})"
       cache_timer.should < no_cache_timer
 
   end
 end
 
 describe Slate do
+  load_spec 'sass.rb'
   load_spec 'haml.rb'
   load_spec 'liquid.rb'
   load_spec 'redcloth.rb'
   load_spec 'maruku.rb'
-  
 end
 
 # EOF
