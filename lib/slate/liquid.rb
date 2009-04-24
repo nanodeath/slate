@@ -1,3 +1,4 @@
+begin
 require 'liquid'
 
 # TODO: Hmm, what about liquid tags?
@@ -6,12 +7,8 @@ module Slate
     def self.render_string(string, binding, options={})
       binding ||= Object.new
 
-      if compiled?(string)
-#        puts "caching"
-        result = @cache[string]
-      else
-#        puts "compiling"
-#      puts "options is #{options.inspect}"
+      result = compiled?(string)
+      if result.nil?
         result = compile(string, options)
       end
       instance_variables = {}
@@ -31,4 +28,6 @@ module Slate
       result
     end
   end
+end
+rescue LoadError
 end

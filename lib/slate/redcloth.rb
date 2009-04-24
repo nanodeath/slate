@@ -1,3 +1,4 @@
+begin
 require 'RedCloth'
 
 module Slate
@@ -19,4 +20,6 @@ module Slate
       result
     end
   end
+end
+rescue LoadError
 end

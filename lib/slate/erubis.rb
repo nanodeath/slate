@@ -1,3 +1,4 @@
+begin
 require 'erubis'
 
 module Slate
@@ -5,9 +6,8 @@ module Slate
     def self.render_string(string, binding, options={})
       binding ||= Object.new
 
-      if compiled?(string)
-        result = @cache[string]
-      else
+      result = compiled?(string)
+      if result.nil?
         result = compile(string, options)
       end
       result.result(binding)
@@ -22,4 +22,6 @@ module Slate
       result
     end
   end
+end
+rescue LoadError
 end

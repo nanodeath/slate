@@ -22,5 +22,5 @@ module Slate
   end
 end
 
-rescue
+rescue LoadError
 end
