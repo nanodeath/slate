@@ -51,19 +51,30 @@ module Slate
   ENGINE_MAPPING = {
     'haml' => Haml,
     'liquid' => Liquid,
-    'erubis' => Erubis
+    'erubis' => Erubis,
+    'redcloth' => RedCloth,
+    'maruku' => Maruku
   }
   
   def self.render_string(engine, string, options={})
-    engine = engine.to_s.downcase
-    engine = ENGINE_MAPPING[engine]
-    if(engine)
-      engine.render_string(string, options[:context], options)
+    if !engine.is_a? Array
+      engine = [engine]
     end
+    result = string
+    
+    engine.each do |e|
+      e = ENGINE_MAPPING[e.to_s.downcase]
+      if(e)
+        result = e.render_string(result, options[:context], options)
+      else
+        break
+      end
+    end
+    return result
   end
   
   def self.render_file(engine_name, filename, options={})
-    extension = engine_name.to_s.downcase
+    extension = engine_name.is_a?(Array) ? engine_name.first.to_s.downcase : engine_name.to_s.downcase
     engine = get_engine(engine_name)
     if(engine)
       filename += "." + extension

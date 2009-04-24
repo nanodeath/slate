@@ -2,7 +2,7 @@ module Slate
   class TemplateEngine
     def self.compiled?(string)
       @cache ||= Cache.new
-      @cache.key? string
+      @cache[string]
     end
     
     def self.clear_cache
