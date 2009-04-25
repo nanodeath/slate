@@ -4,6 +4,7 @@ describe 'Tenjin' do
   if Slate.const_defined? :Tenjin
     before(:each) do
       Slate.clear_cache
+      # Only using ${} here because Ruby would parse #{}.  It's the same but escapes contents
       @input = '<p>Hello, ${@name}!  How are you this ${@tod}?</p>'
     end
 
