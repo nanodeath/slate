@@ -3,6 +3,8 @@ require 'RedCloth'
 
 module Slate
   class RedCloth < TemplateEngine
+    ENGINE_MAPPING['redcloth'] = RedCloth
+    
     def self.render_string(string, binding, options={})
       result = compiled?(string)
       if result.nil?

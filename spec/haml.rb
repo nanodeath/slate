@@ -1,6 +1,7 @@
-  describe Slate::Haml do
+  describe 'Haml' do
     include TemplateEngineHelpers
   
+    if Slate.const_defined? :Haml
     before(:each) do
       Slate.clear_cache
     end
@@ -74,5 +75,10 @@ OUTPUT
   What?
 </p>
       OUTPUT
+    end
+    else
+      it "should test haml behavior" do
+        pending "pending user installation of haml"
+      end
     end
   end

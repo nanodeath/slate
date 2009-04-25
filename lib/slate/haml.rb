@@ -3,6 +3,8 @@ require 'haml/util'
 require 'haml/engine'
 module Slate
   class Haml < TemplateEngine
+    ENGINE_MAPPING['haml'] = Haml
+
     def self.render_string(string, binding, options={})
       binding ||= Object.new
 

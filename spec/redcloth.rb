@@ -1,5 +1,7 @@
-  describe Slate::RedCloth do
+  describe 'RedCloth' do
     include TemplateEngineHelpers
+    
+    if Slate.const_defined? :RedCloth
     
     it "should render basic RedCloth" do
       render_string_compare(:redcloth, <<-REDCLOTH, "RedCloth is <em>really</em> just <strong>Textile</strong>, but for Ruby!", {:context => binding})
@@ -39,6 +41,12 @@
         render_string_cache_benchmark([:erubis, :redcloth], <<-ERUBIS, "Now I have <strong>#{@feature}</strong> support!", :context => binding)
           Now I have <%= "*" + @feature + "*" %> support!
         ERUBIS
+      end
+    end
+    
+    else
+      it "should run RedCloth tests" do
+        pending "pending user installation of RedCloth"
       end
     end
   end

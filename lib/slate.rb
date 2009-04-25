@@ -44,18 +44,8 @@ module Slate
 
 end  # module Slate
 
-require 'slate/template_engine'
-Slate.require_all_libs_relative_to(__FILE__)
-
 module Slate
-  ENGINE_MAPPING = {
-    'haml' => Haml,
-    'liquid' => Liquid,
-    'erubis' => Erubis,
-    'redcloth' => RedCloth,
-    'maruku' => Maruku,
-    'sass' => Sass
-  }
+  ENGINE_MAPPING = {}
   
   def self.render_string(engine, string, options={})
     if !engine.is_a? Array
@@ -63,14 +53,17 @@ module Slate
     end
     result = string
     
+    engines_used = 0
     engine.each do |e|
       e = ENGINE_MAPPING[e.to_s.downcase]
       if(e)
         result = e.render_string(result, options[:context], options)
+        engines_used += 1
       else
         break
       end
     end
+    raise "No engine found" if engines_used == 0
     return result
   end
   
@@ -78,7 +71,7 @@ module Slate
     extension = engine_name.is_a?(Array) ? engine_name.first.to_s.downcase : engine_name.to_s.downcase
     engine = get_engine(engine_name)
     if(engine)
-      filename += "." + extension
+      filename += "." + extension unless filename.include? '.'
       search_path = options[:search_path] || @configuration[:search_path]
       file = resolve_path(filename, search_path)
       if(file)
@@ -90,6 +83,30 @@ module Slate
     else
       raise "Engine `#{engine_name}` could not be resolved"
     end
+  end
+  
+  def self.render_block(engine, options={}, &block)
+    if !engine.is_a? Array
+      engine = [engine]
+    end
+    result = ""
+    
+    engines_used = 0
+    engine.each do |e|
+      e = ENGINE_MAPPING[e.to_s.downcase]
+      if(e)
+        if(engines_used == 0)
+          result = e.render_block(options[:context], options, &block)
+        else
+          result = e.render_string(result, options[:context], options)
+        end
+        engines_used += 1
+      else
+        break
+      end
+    end
+    raise "No engine found" if engines_used == 0
+    return result
   end
   
   def self.clear_cache
@@ -119,5 +136,9 @@ module Slate
     return nil
   end
 end
+
+#require 'slate/template_engine'
+Slate.require_all_libs_relative_to(__FILE__)
+
 
 # EOF

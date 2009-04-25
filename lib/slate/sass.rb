@@ -4,6 +4,8 @@ require 'sass/engine'
 
 module Slate
   class Sass < TemplateEngine
+    ENGINE_MAPPING['sass'] = Sass
+  
     def self.render_string(string, binding, options={})
       result = compiled?(string)
       if result.nil?

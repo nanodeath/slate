@@ -3,6 +3,8 @@ require 'erubis'
 
 module Slate
   class Erubis < TemplateEngine
+    Slate::ENGINE_MAPPING['erubis'] = Erubis
+  
     def self.render_string(string, binding, options={})
       binding ||= Object.new
 

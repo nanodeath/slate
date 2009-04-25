@@ -3,6 +3,8 @@ begin
 require 'maruku'
 module Slate
   class Maruku < TemplateEngine
+    ENGINE_MAPPING['maruku'] = Maruku
+    
     def self.render_string(string, binding, options={})
       result = compiled?(string)
       if result.nil?

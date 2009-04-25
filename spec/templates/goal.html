@@ -1,0 +1,88 @@
+<!-- This is just for me to code against, it's not actually tested as a goal!  Template's output differ too much in subtle ways. -->
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>This is a sample page</title>
+
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <!-- Headers -->
+    <h1>My First Website</h1>
+    <h2>A Tragedy</h2>
+
+    <!-- A lovely little table -->
+    <table>
+      <tr>
+        <th>Warm colors</th>
+        <th>Cool colors</th>
+      </tr>
+      <tr>
+        <td>Red</td>
+        <td>Blue</td>
+      </tr>
+      <tr>
+        <td>Orange</td>
+        <td>Green</td>
+      </tr>
+      <tr>
+        <td>Yellow</td>
+        <td>Violet</td>
+      </tr>
+    </table>
+
+    <!-- Stupid little PHP feedback form from your first website -->
+    <form action="/feedback.php" method="post">
+      <fieldset>
+        <legend>Submit Feedback</legend>
+        <p>
+          <label for="name_field">Name:</label>
+          <input type="text" id="name_field" name="name" />
+        </p>
+        <p>
+          <label for="email_field">E-mail:</label>
+          <input type="text" id="email_field" name="email" />
+        </p>
+        <p>
+          <label for="comments_field">Comments:</label>
+          <textarea id="comments_field" name="comments" cols="20" rows="5" />
+        </p>
+        <input type="submit" value="Submit"/>
+      </fieldset>
+    </form>
+    
+    <!-- List of links -->
+    <ul style="display:inline;">
+      <li>
+        <a href="/more_information.php">More Information</a>
+      </li>
+      <li>
+        <a href="/less_information.php">Less Information</a>
+      </li>
+      <li>
+        <a href="http://www.google.com/">The Google</a>
+      </li>
+    </ul>
+
+    <!-- Google tracking info -->
+    <script type="text/javascript">
+      <![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+      ]]>
+    </script>
+    <script type="text/javascript">
+      <![CDATA[
+        try {
+          var pageTracker = _gat._getTracker("UA-123456-78");
+          pageTracker._trackPageview();
+        } catch(err) {}
+      ]]>
+    </script>
+  </body>
+</html>
+  

@@ -1,10 +1,12 @@
 module Slate  
   class Cache < Hash
     attr_reader :total_size
+    attr_reader :maximum_size
     
     def initialize(*args)
       super
       @total_size = 0
+      @maximum_size = 10 * (1024 ** 2)
     end
     
     def []=(key, value)
