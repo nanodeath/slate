@@ -13,4 +13,11 @@ Spec::Runner.configure do |config|
   # config.mock_with :rr
 end
 
+def stats(array)
+  sum = array.inject(&:+)
+  mean = sum.to_f / array.length
+  stddev = Math.sqrt(array.inject(0) {|memo, val| memo + (val - mean)**2}.to_f / array.length)
+  {:sum => sum, :mean => mean, :stddev => stddev}
+end
+
 # EOF

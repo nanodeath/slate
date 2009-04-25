@@ -1,14 +1,17 @@
-<!-- This is just for me to code against, it's not actually tested as a goal!  Template's output differ too much in subtle ways. -->
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html 
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- This is just for me to code against, it's not actually tested as a goal!  Template's output differ too much in subtle ways. -->
+<!-- Version 1.0 of this test document -->
   <head>
     <title>This is a sample page</title>
 
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
     <link rel="stylesheet" href="/main.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
   </head>
   <body>
     <!-- Headers -->
@@ -16,6 +19,7 @@
     <h2>A Tragedy</h2>
 
     <!-- A lovely little table -->
+    <h3>Colors</h3>
     <table>
       <tr>
         <th>Warm colors</th>
@@ -36,6 +40,7 @@
     </table>
 
     <!-- Stupid little PHP feedback form from your first website -->
+    <h3>Feedback</h3>
     <form action="/feedback.php" method="post">
       <fieldset>
         <legend>Submit Feedback</legend>
@@ -49,14 +54,15 @@
         </p>
         <p>
           <label for="comments_field">Comments:</label>
-          <textarea id="comments_field" name="comments" cols="20" rows="5" />
+          <textarea id="comments_field" name="comments" cols="20" rows="5"></textarea>
         </p>
         <input type="submit" value="Submit"/>
       </fieldset>
     </form>
     
-    <!-- List of links -->
-    <ul style="display:inline;">
+    <!-- Unordered list of links with inline style -->
+    <h3>Unhelpful links</h3>
+    <ul class="resources" style="display:inline;">
       <li>
         <a href="/more_information.php">More Information</a>
       </li>
@@ -67,6 +73,30 @@
         <a href="http://www.google.com/">The Google</a>
       </li>
     </ul>
+
+    <!-- Ordered list of pictures -->
+    <h3>Gallery</h3>
+    <ol class="pictures">
+      <li><img src="/img/puppy.jpg" alt="Puppy" /></li>
+      <li id="favorite_pic"><img src="/img/kitty.jpg" alt="Kitty" /></li>
+      <li><img src="/img/t-rex.jpg" alt="Tyrannosaurus Rex" /></li>
+      <li><img src="/img/hamster.jpg" alt="Hamster" /></li>
+    </ol>
+
+    <!-- Tabs -->
+    <h3>Tabs</h3>
+    <div class="tabs">
+      <ul>
+        <li><a href="#tab1">Stuff</a></li>
+        <li><a href="#tab2">Things</a></li>
+        <li><a href="#tab3">Miscellaneous</a></li>
+        <li><a href="#tab3">Paraphernalia</a></li>
+      </ul>
+
+      <div id="tab1"></div>
+      <div id="tab2"></div>
+      <div id="tab3"></div>
+    </div>
 
     <!-- Google tracking info -->
     <script type="text/javascript">

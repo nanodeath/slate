@@ -1,0 +1,92 @@
+!!! XML
+!!!
+%html{ "xml:lang" => "en", :lang => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
+  / Version 1.0 of this test document
+  %head
+    %title
+      This is a sample page
+    %meta{ :content => "text/html;charset=UTF-8", "http-equiv" => "Content-type" }
+    %link{ :href => "/main.css", :rel => "stylesheet" }
+    %script{ :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js", :type => "text/javascript" }
+  %body
+    / Headers
+    %h1 My First Website
+    %h2 A Tragedy
+    / A lovely little table
+    %h3
+      Colors
+    %table
+      %tr
+        %th Warm colors
+        %th Cool colors
+      - @colors.each do |(warm, cool)|
+        %tr
+          %td= warm
+          %td= cool
+
+    / Stupid little PHP feedback form from your first website
+    %h3
+      Feedback
+    %form{ :method => "post", :action => "/feedback.php" }
+      %fieldset
+        %legend Submit Feedback
+        %p
+          %label{ :for => "name_field" }
+            Name:
+          %input#name_field{ :name => "name", :type => "text" }
+        %p
+          %label{ :for => "email_field" }
+            E-mail:
+          %input#email_field{ :name => "email", :type => "text" }
+        %p
+          %label{ :for => "comments_field" }
+            Comments:
+          %textarea#comments_field{ :name => "comments", :rows => "5", :cols => "20" }
+        %input{ :type => "submit", :value => "Submit" }
+
+    / Unordered list of links with inline style
+    %h3 Unhelpful links
+    %ul.resources{ :style => "display:inline;" }
+      %li
+        %a{ :href => "/more_information.php" }
+          More Information
+      %li
+        %a{ :href => "/less_information.php" }
+          Less Information
+      %li
+        %a{ :href => "http://www.google.com/" }
+          The Google
+    / Ordered list of pictures
+    %h3 Gallery
+    %ol.pictures
+      - @pictures.each do |pic|
+        %li{:id => pic[:id]}
+          %img{ :src => pic[:src], :alt => pic[:alt] }
+    / Tabs
+    %h3 Tabs
+    .tabs
+      %ul
+        %li
+          %a{ :href => "#tab1" }
+            Stuff
+        %li
+          %a{ :href => "#tab2" }
+            Things
+        %li
+          %a{ :href => "#tab3" }
+            Miscellaneous
+        %li
+          %a{ :href => "#tab3" }
+            Paraphernalia
+      #tab1
+      #tab2
+      #tab3
+    / Google tracking info
+    %script{ :type => "text/javascript" }
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    %script{ :type => "text/javascript" }
+      try {
+      var pageTracker = _gat._getTracker("UA-123456-78");
+      pageTracker._trackPageview();
+      } catch(err) {}

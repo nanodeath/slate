@@ -1,7 +1,7 @@
-  describe 'Erubis' do
-    include TemplateEngineHelpers
+describe 'Erubis' do
+  include TemplateEngineHelpers
   
-    if Slate.const_defined? :Erubis
+  if Slate.const_defined? :Erubis
     before(:each) do
       Slate.clear_cache
       @input = '<p>Hello, <%= @name %>!  How are you this <%= @tod %>?</p>'
@@ -22,9 +22,9 @@
       @tod = "evening"
       render_string_cache_benchmark(:erubis, @input * 100, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>" * 100, {:context => binding})
     end
-    else
-      it "should test erubis behavior" do
-        pending "erubis not installed"
-      end
+  else
+    it "should test erubis behavior" do
+      pending "erubis not installed"
     end
   end
+end

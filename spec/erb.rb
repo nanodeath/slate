@@ -1,7 +1,7 @@
-  describe 'ERB' do
-    include TemplateEngineHelpers
+describe 'ERB' do
+  include TemplateEngineHelpers
   
-    if Slate.const_defined? :ERB
+  if Slate.const_defined? :ERB
     before(:each) do
       Slate.clear_cache
       @input = '<p>Hello, <%= @name %>!  How are you this <%= @tod %>?</p>'
@@ -22,9 +22,9 @@
       @tod = "evening"
       render_string_cache_benchmark(:erb, @input, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>", {:context => binding})
     end
-    else
-      it "should test erb behavior" do
-        pending "erb not installed"
-      end
+  else
+    it "should test erb behavior" do
+      pending "erb not installed"
     end
   end
+end

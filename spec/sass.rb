@@ -1,8 +1,8 @@
-  describe 'Sass' do
-    include TemplateEngineHelpers
-    if Slate.const_defined? :Sass
-      before do
-        @input = <<-SASS
+describe 'Sass' do
+  include TemplateEngineHelpers
+  if Slate.const_defined? :Sass
+    before do
+      @input = <<-SASS
 h1.big_important
   :color red
 
@@ -14,8 +14,8 @@ h1, h3
   
 .turkey
   :feathers brown
-SASS
-        @input_with_variables = <<-SASS
+      SASS
+      @input_with_variables = <<-SASS
 !main_color = <%= @main_color %>
 !sec_color = <%= @secondary_color %>
 
@@ -30,7 +30,7 @@ h1, h3
 
 .turkey
   :feathers brown
-SASS
+      SASS
       @output = <<-OUTPUT
 h1.big_important {
   color: red; }
@@ -43,7 +43,7 @@ h1, h3 {
 
 .turkey {
   feathers: brown; }
-OUTPUT
+      OUTPUT
       @output_with_variables = <<-OUTPUT
 h1.big_important {
   color: <%= @main_color %>; }
@@ -56,7 +56,7 @@ h1, h3 {
 
 .turkey {
   feathers: brown; }
-OUTPUT
+      OUTPUT
     end
     
     it "should render basic Sass" do
@@ -88,9 +88,9 @@ OUTPUT
         end
       end
     end
-    else
-      it "should run sass tests" do
-        pending "pending user installation of Sass/Haml"
-      end    
+  else
+    it "should run sass tests" do
+      pending "pending user installation of Sass/Haml"
+    end
   end
 end

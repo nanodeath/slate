@@ -1,7 +1,7 @@
-  describe 'Haml' do
-    include TemplateEngineHelpers
+describe 'Haml' do
+  include TemplateEngineHelpers
   
-    if Slate.const_defined? :Haml
+  if Slate.const_defined? :Haml
     before(:each) do
       Slate.clear_cache
     end
@@ -24,24 +24,16 @@
     end
     
     it "should render external haml files" do
-      @location = "Seattle"
-      @weather = "rainy"
-      
-      render_file_compare(:haml, 'hows_the_weather', <<-OUTPUT, {:context => binding})
-<p>
-  How's the weather in #{@location}?
-</p>
-<p>
-  Oh, you know, #{@weather} as usual.
-</p>
-<p>
-  Ah..that sucks.  It's !#{@weather} here.
-</p>
-<p>
-  What?
-</p>
-OUTPUT
+      @colors = [['Red', 'Blue'], ['Orange', 'Green'], ['Yellow', 'Violet']]
+      @pictures = []
+      @pictures << {:src => "/img/puppy.jpg", :alt => "Puppy"}
+      @pictures << {:src => "/img/kitty.jpg", :alt => "Kitty", :id => "favorite_pic"}
+      @pictures << {:src => "/img/t-rex.jpg", :alt => "Tyrannosaurus Rex"}
+      @pictures << {:src => "/img/hamster.jpg", :alt => "Hamster"}
+
+      render_file_compare(:haml, 'haml/goal', File.open("spec/templates/haml/goal.html") {|f| f.read}, :context => binding )
     end
+
     
     it "should render external haml files with a custom search path" do
       search_path = Slate.configuration[:search_path].dup
@@ -54,7 +46,7 @@ OUTPUT
 <p>
   Oh, #{@performance}.
 </p>
-OUTPUT
+      OUTPUT
     end
     
     it "should render faster when caching isn't disabled" do
@@ -76,9 +68,9 @@ OUTPUT
 </p>
       OUTPUT
     end
-    else
-      it "should test haml behavior" do
-        pending "pending user installation of haml"
-      end
+  else
+    it "should test haml behavior" do
+      pending "pending user installation of haml"
     end
   end
+end
