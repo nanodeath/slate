@@ -1,7 +1,7 @@
 begin
   require 'markaby'
-
   # TODO: Hmm, what about markaby tags?
+  
   module Slate
     class Markaby < TemplateEngine
       ENGINE_MAPPING['markaby'] = Markaby

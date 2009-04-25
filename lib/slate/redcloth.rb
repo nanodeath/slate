@@ -1,6 +1,6 @@
 begin
   require 'RedCloth'
-
+  
   module Slate
     class RedCloth < TemplateEngine
       ENGINE_MAPPING['redcloth'] = RedCloth

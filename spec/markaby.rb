@@ -30,21 +30,10 @@ describe 'Markaby' do
             end
           end
         end
-
-        it "should render faster when caching isn't disabled" do
-          @day = "Friday"
-          render_block_cache_benchmark([:markaby, :erubis], "<p>Today is a #{@day}</p>", :context => binding) do
-            p do
-              text "Today is a <%= @day %>"
-            end
-          end
-        end
       else
         it "should run tests of erubis piping to markaby" do
           pending "pending user installation of erubis"
         end
-      
-      
       end
     end
   else
