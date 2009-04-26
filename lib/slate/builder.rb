@@ -7,7 +7,8 @@ begin
 
       def self.render_block(binding, options={}, &block)
         builder_options = options.dup.delete_if {|k, v| ![:indent, :margin].include? k}
-        block.call(::Builder::XmlMarkup.new(builder_options))
+        #block.call(::Builder::XmlMarkup.new(builder_options))
+        yield ::Builder::XmlMarkup.new(builder_options)
       end
 
       # no compile stage here
