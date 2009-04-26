@@ -15,7 +15,6 @@ begin
         
         
         helpers = options[:helpers]
-        puts "Helpers is #{helpers.inspect}"
         ::Markaby::Builder.new(iv, helpers, &block).to_s
       end
 

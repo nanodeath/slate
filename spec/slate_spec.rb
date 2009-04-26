@@ -75,7 +75,7 @@ end
 describe Slate do
   ['cache'].each {|t| load_spec t + '.rb'}
 
-  ['haml', 'liquid', 'redcloth', 'maruku', 'sass', 'erb', 'erubis', 'markaby', 'tenjin'].sort.each {|t| load_spec t + '.rb'}
+  ['haml', 'liquid', 'redcloth', 'maruku', 'sass', 'erb', 'erubis', 'markaby', 'tenjin', 'builder'].sort.each {|t| load_spec t + '.rb'}
 end
 
 # EOF
