@@ -1,4 +1,3 @@
-
 begin
   require 'tenjin'
 
@@ -18,12 +17,14 @@ begin
         end
         
         if !options.key? :tenjin_context
-          context = SlateBinding.new(binding)
+          target = eval("self", binding)
+          unless target.respond_to? :start_capture
+            target.class.instance_eval { include ::Tenjin::ContextHelper; include ::Tenjin::HtmlHelper; }
+          end
+          context = target
         else
           context = options[:tenjin_context]
         end
-        
-        #result.render(context)
         result.render(context)
       end
 
@@ -35,17 +36,6 @@ begin
           @cache[slug] = result
         end
         result
-      end
-
-      class SlateBinding < ::Tenjin::Context
-        def initialize(binding)
-          super(Slate::TemplateEngine::get_instance_variables_from(binding))
-          @binding = binding
-        end
-
-        def method_missing(meth, *args)
-          Slate::TemplateEngine.execute_method_on(@binding, meth, args)
-        end
       end
     end
   end
