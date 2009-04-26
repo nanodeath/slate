@@ -21,7 +21,19 @@ describe 'Tenjin' do
     it "should render faster when caching isn't disabled" do
       @name = "Brian"
       @tod = "evening"
-      render_string_cache_benchmark(:tenjin, @input * 100, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>" * 100, {:context => binding})
+      render_string_cache_benchmark(:tenjin, @input, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>", {:context => binding})
+    end
+
+    def a_helper_method(name, title)
+      return "Hello, #{title.a} #{name}"
+    end
+
+    it "should have access to helper methods in local context" do
+      @name = "John"
+      @tod = "afternoon"
+      @title = Struct.new(:a, :b).new("Sir", "Dawg")
+      render_string_compare(:tenjin, @input + "<p>${a_helper_method('Galahad', @title)}</p>",
+        "<p>Hello, #{@name}!  How are you this #{@tod}?</p><p>Hello, Sir Galahad</p>", :context => binding)
     end
   else
     it "should test tenjin behavior" do

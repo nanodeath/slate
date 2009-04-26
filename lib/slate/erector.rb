@@ -10,12 +10,7 @@ begin
           ::Erector::Widget.new(options[:helpers], options[:assigns] || {}, options[:output] || '', &block).to_s
         else
           klass = options[:class] or raise "No class provided for Erector"
-          #        path = options[:path]
-          if options[:method]
-            klass.new.to_s(options[:method])
-          else
-            klass.new.to_s
-          end
+          options.key?(:method) ? klass.new.to_s(options[:method]) : klass.new.to_s
         end
       end
 
