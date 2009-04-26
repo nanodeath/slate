@@ -16,16 +16,21 @@ begin
           result = compile(slug)
         end
         
-        if !options.key? :tenjin_context
-          target = eval("self", binding)
-          unless target.respond_to? :start_capture
-            target.class.instance_eval { include ::Tenjin::ContextHelper; include ::Tenjin::HtmlHelper; }
-          end
-          context = target
-        else
+        if options.key? :tenjin_context
           context = options[:tenjin_context]
+        elsif !binding.nil?
+          context = eval("self", binding)
+        else
+          context = ::Tenjin::Context.new
         end
-        result.render(context)
+        begin
+          result.render(context)
+        rescue NoMethodError => e
+          if e.message =~ /_buf=/
+            raise "Please include ::Tenjin::ContextHelper (and optionally ::Tenjin::HtmlHelper) in your controller/context (class of context is #{context.class.inspect})."
+          end
+          raise e
+        end
       end
 
       def self.compile(slug, options={})
