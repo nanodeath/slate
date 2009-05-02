@@ -20,7 +20,7 @@ describe 'Tenjin' do
       it "should render faster when caching isn't disabled" do
         @name = "Brian"
         @tod = "evening"
-        render_string_cache_benchmark(:tenjin, @input, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>", {:context => binding})
+        render_string_cache_benchmark(:tenjin, @input*200, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>"*200, {:context => binding})
       end
 
       def a_helper_method(greeting, title, person)

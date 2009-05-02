@@ -1,7 +1,13 @@
 module Slate
   class TemplateEngine
+    @cache = Slate::Cache.new
+#    @extensions = {}
+    class << self
+      attr_reader :extensions
+    end
+
     def self.compiled?(string)
-      @cache ||= Cache.new
+      @cache ||= Slate::Cache.new
       @cache[string]
     end
     
@@ -20,6 +26,11 @@ module Slate
         instance_variables[iv] = eval("@#{iv}", binding)
       end
       return instance_variables
+    end
+
+    def self.register_extension(ext, klass, precedence=:low_precedence)
+      ((@extensions ||= {})[ext] ||= []) << klass
+
     end
   end
 end

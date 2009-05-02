@@ -53,9 +53,9 @@ module TemplateEngineHelpers
       end
       [cache, no_cache].sort_by {rand}.each {|t| t.call}
       engine = [engine] unless engine.is_a? Array
-      Kernel.puts "\t#{engine.join('|')}:\tCached is #{(no_cache_timer*100/cache_timer).round/100.0}x faster.\t(cached: #{(n/cache_timer).round}/s, nocache: #{(n/no_cache_timer).round}/s, n: #{n})"
+      Kernel.puts "\t#{engine.join('|')}:\tCached is #{(no_cache_timer*100/cache_timer).round/100.0}x faster.\t(cached: #{(n/cache_timer).round}/s, nocache: #{(n/no_cache_timer).round}/s, n: #{n}, input: #{input.to_s.length} chars)"
       # In some cases it's about the same speed -- giving some leeway here..
-      leeway = 1.2
+      leeway = 1.1
       cache_timer.should < no_cache_timer * leeway
   end
   
@@ -75,7 +75,8 @@ end
 describe Slate do
   ['cache'].each {|t| load_spec t + '.rb'}
 
-  ['haml', 'liquid', 'redcloth', 'maruku', 'sass', 'erb', 'erubis', 'markaby', 'tenjin', 'builder', 'erector'].sort.reverse.each {|t| load_spec t + '.rb'}
+  ['haml', 'liquid', 'redcloth', 'maruku', 'sass', 'erb', 'erubis', 'markaby', 'tenjin', 'builder', 'erector'].sort.each {|t| load_spec t + '.rb'}
+#  load_spec 'rack_app.rb'
 end
 
 # EOF

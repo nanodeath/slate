@@ -46,6 +46,41 @@ end  # module Slate
 
 module Slate
   ENGINE_MAPPING = {}
+
+  # if you pass in a block:
+  #   process block with engine(s) given in options[:engines]
+  # otherwise, if you pass in a file in options[:file] (File or full path)
+  #   process that using a best-guess on file extension(s)
+  # otherwise, if you pass in a string via options[:body]
+  #   process string with engine(s) given in options[:engines]
+  def self.render(options={}, &block)
+    engines = options[:engines]
+    if block_given?
+      if !engines
+        raise ArgumentError, "Block given but no engine (given in :engines option)"
+      end
+      result = block
+      if engines.is_a? Array
+        engines.each do |e|
+          result = render(options, block)
+        end
+      end
+
+
+
+    else
+      if options[:file]
+        if engines
+
+        else
+          engines = []
+        end
+      elsif options[:body]
+      else
+        raise ArgumentError, "No block given, nor :file or :body options."
+      end
+    end
+  end
   
   def self.render_string(engine, string, options={})
     if !engine.is_a? Array
@@ -84,6 +119,15 @@ module Slate
       raise "Engine `#{engine_name}` could not be resolved"
     end
   end
+
+  def self.guess_engine(filename)
+    extensions = File.basename(filename).split('.')[1..-1].reverse
+    engines = []
+    extensions.each do |ext|
+      engines << TemplateEngine.extensions[ext].first
+    end
+    return engines
+  end
   
   def self.render_block(engine, options={}, &block)
     if !engine.is_a? Array
@@ -121,12 +165,12 @@ module Slate
     }
   end
   
-  private
   def self.get_engine(engine_string)
     engine = engine_string.to_s.downcase
     ENGINE_MAPPING[engine]
   end
-  
+
+  private
   def self.resolve_path(filename, search_path)
     search_path.each do |path|
       path = ::File.expand_path(
@@ -138,7 +182,15 @@ module Slate
 end
 
 #require 'slate/template_engine'
-Slate.require_all_libs_relative_to(__FILE__)
+#Slate.require_all_libs_relative_to(__FILE__)
+requirements = []
+requirements << 'cache' << '_template_engine' << 'builder' << 'erb' << 'erector'
+requirements << 'erubis' << 'haml' << 'liquid' << 'markaby' << 'maruku'
+requirements << 'redcloth' << 'sass' << 'tenjin'
+requirements.each do |r|
+  require Slate.libpath("slate/#{r}")
+end
+
 
 
 # EOF

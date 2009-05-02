@@ -22,7 +22,7 @@ describe 'Liquid' do
       string = "I shouldn't feel this {{ feeling }} at this time of {{ tod }}"
       output = "I shouldn't feel this #{@feeling} at this time of #{@tod}"
       
-      render_string_cache_benchmark(:liquid, string, output, {:context => binding})
+      render_string_cache_benchmark(:liquid, string*20, output*20, {:context => binding})
     end
 
     it "should render Liquid filters" do

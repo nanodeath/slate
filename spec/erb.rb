@@ -20,7 +20,7 @@ describe 'ERB' do
     it "should render faster when caching isn't disabled" do
       @name = "Brian"
       @tod = "evening"
-      render_string_cache_benchmark(:erb, @input, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>", {:context => binding})
+      render_string_cache_benchmark(:erb, @input * 100, "<p>Hello, #{@name}!  How are you this #{@tod}?</p>" * 100, {:context => binding})
     end
   else
     it "should test erb behavior" do

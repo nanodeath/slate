@@ -34,8 +34,8 @@ begin
       end
 
       def self.compile(slug, options={})
-        result = ::Tenjin::Template.new(nil, slug.last)
-        result.convert(slug.first)
+        result = ::Tenjin::Template.new(nil, slug[1])
+        result.convert(slug[0])
         if(!options[:no_cache])
           @cache ||= Cache.new
           @cache[slug] = result
